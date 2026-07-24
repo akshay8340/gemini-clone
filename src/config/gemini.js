@@ -9,10 +9,18 @@ import {
     HarmBlockThreshold,
   } from "@google/generative-ai";
   
-  const MODEL_NAME = "gemini-1.0-pro";
-  const API_KEY = "AIzaSyBYIGUcPkYt62gOpavV2PUBFgLvAjAMv9Y";
+  // gemini-1.0-pro has been shut down by Google. Use a current model name instead.
+  const MODEL_NAME = "gemini-2.5-flash";
+  // API key ab .env file se aayegi, code mein hardcode nahi hai (security ke liye)
+  const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
   
   async function runChat(prompt) {
+    if (!API_KEY) {
+      throw new Error(
+        "Gemini API key nahi mili. .env file mein VITE_GEMINI_API_KEY set karo."
+      );
+    }
+
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
   
